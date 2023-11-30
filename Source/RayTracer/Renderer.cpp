@@ -14,7 +14,7 @@ bool Renderer::Initialize()
 void Renderer::Shutdown()
 {
 	if (window != nullptr) SDL_DestroyWindow(window);
-	if (renderer != nullptr) SDL_DestroyRenderer(renderer);
+	if (m_renderer != nullptr) SDL_DestroyRenderer(m_renderer);
 
 	SDL_Quit();
 }
@@ -30,13 +30,23 @@ bool Renderer::CreateWindow(const std::string& title, int width, int height)
 		return false;
 	}
 
-	renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	m_renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	if (!renderer)
+	if (!m_renderer)
 	{
 		std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
 	return true;
+}
+
+void Renderer::PresentCanvas(const Canvas& canvas)
+{
+	// copy canvas texture to renderer
+	SDL_RenderCopy(m_renderer, canvas.m_texture, NULL, NULL);
+
+
+	// present renderer to screen
+	SDL_RenderPresent(m_renderer);
 }
