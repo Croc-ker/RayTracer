@@ -17,6 +17,7 @@ public:
     void DrawPoint(const glm::ivec2& point, const color4_t& color);
     const glm::ivec2& GetSize() const { return m_size; }
     friend class Renderer;
+    friend class Scene;
 private:
     struct SDL_Texture* m_texture{ nullptr };
     std::vector<rgba_t> m_buffer;
