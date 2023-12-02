@@ -1,15 +1,13 @@
 #pragma once
-#include <memory>
-#include "ray.h"
 #include "Material.h"
+#include <memory>
 
 class Object
 {
 public:
 	Object() = default;
 	Object(std::shared_ptr<Material> material) :
-		m_material{ material }
-	{}
+		m_material{ material } {}
 
 	virtual bool Hit(const ray_t& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit) = 0;
 

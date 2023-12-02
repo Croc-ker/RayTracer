@@ -2,8 +2,9 @@
 #include "Color.h"
 #include "Ray.h"
 #include "Camera.h"
-#include "Canvas.h"
 #include "Object.h"
+#include <memory>
+#include <vector>
 
 class Scene
 {
@@ -21,9 +22,7 @@ public:
 
 	color3_t Trace(const ray_t& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit);
 	void AddObject(std::unique_ptr<Object> object) { m_objects.push_back(std::move(object)); }
-
 private:
-	//<shared pointer of Camera> m_camera;
 	std::shared_ptr<Camera> m_camera;
 
 	color3_t m_topColor{ 0 };
