@@ -66,6 +66,8 @@ color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance, ra
 
 		if (raycastHit.material->Scatter(ray, raycastHit, color, scattered))
 		{
+			//grayscale
+			//return color3_t{ raycastHit.distance / maxDistance, raycastHit.distance / maxDistance, raycastHit.distance / maxDistance };
 			return raycastHit.normal;
 		}
 		else
