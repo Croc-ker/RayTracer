@@ -3,9 +3,9 @@
 
 bool Sphere::Hit(const ray_t& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit)
 {
-    glm::vec3 oc = ray.m_origin - m_center;
-    float a = glm::dot(ray.m_direction, ray.m_direction);
-    float b = 2 * glm::dot(ray.m_direction, oc);
+    glm::vec3 oc = ray.origin - m_center;
+    float a = glm::dot(ray.direction, ray.direction);
+    float b = 2 * glm::dot(ray.direction, oc);
     float c = glm::dot(oc, oc) - (m_radius * m_radius);
 
     // b^2 - 4ac

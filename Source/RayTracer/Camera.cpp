@@ -45,9 +45,9 @@ ray_t Camera::GetRay(const glm::vec2& point) const
 {
 	ray_t ray;
 	// the ray origin is the camera eye
-	ray.m_origin = m_eye;
+	ray.origin = m_eye;
 	// calculate direction from point
-	ray.m_direction = glm::normalize(m_lowerLeft + (m_horizontal * point.x) + (m_vertical * point.y) - m_eye);
+	ray.direction = glm::normalize(m_lowerLeft + (m_horizontal * point.x) + (m_vertical * point.y) - m_eye);
 
 	return ray;
 }
