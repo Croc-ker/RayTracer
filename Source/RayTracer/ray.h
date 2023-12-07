@@ -1,19 +1,19 @@
 #pragma once
 #include <glm/glm.hpp>
 
-static struct ray_t
+struct ray_t
 {
 	ray_t() = default;
 	ray_t(const glm::vec3& origin, const glm::vec3& direction) :
 		origin{ origin },
-		direction{ direction }
+		direction{direction}
 	{}
 
-	glm::vec3 GetPoint(float distance) const { return origin + (direction * distance); }
-	glm::vec3 operator * (const float distance) const { return origin + (direction * distance); }
+	glm::vec3 GetPoint(float distance) const {return origin + (distance * direction); };
 
 	glm::vec3 origin;
 	glm::vec3 direction;
+
 };
 
 struct raycastHit_t

@@ -1,7 +1,6 @@
 #pragma once
+#include <iostream>
 #include "Material.h"
-#include <memory>
-
 class Object
 {
 public:

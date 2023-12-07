@@ -8,6 +8,7 @@
 #include "Canvas.h"
 #include "Plane.h"
 #include "Triangle.h"
+#include "Mesh.h"
 
 inline void InitScene01(Scene& scene, const Canvas& canvas) {
 	float aspectRatio = canvas.GetSize().x / canvas.GetSize().y;
@@ -41,6 +42,17 @@ inline void InitScene01(Scene& scene, const Canvas& canvas) {
 	scene.AddObject(std::move(plane));
 }
 
+inline void InitScene02(Scene& scene, const Canvas& canvas) {
+	float aspectRatio = canvas.GetSize().x / canvas.GetSize().y;
+	std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 0, 2, 10 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 20.0f, aspectRatio);
+	scene.SetCamera(camera);
+
+	auto cube = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0, 0, 1 }));
+	cube->Load("models/cube.obj", glm::vec3{ 0, 0.5f, 0 }, glm::vec3{ 0, 45, 0 });
+	scene.AddObject(std::move(cube));
+
+}
+
 int main(int argc, char* argv[]) {
 
 	const int width = 400;
@@ -63,7 +75,7 @@ int main(int argc, char* argv[]) {
 
 	srand(time(NULL));
 
-	InitScene01(scene, canvas);
+	InitScene02(scene, canvas);
 
 	// render scene
 	canvas.Clear({ 0, 0, 0, 1 });

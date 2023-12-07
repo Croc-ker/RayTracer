@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-
+#include "glm/glm.hpp"
 class Sphere : public Object
 {
 public:
@@ -9,12 +9,11 @@ public:
 		Object(material),
 		m_center{ center },
 		m_radius{ radius }
-	{
-	}
+	{};
 
 	bool Hit(const ray_t& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit) override;
 
 private:
-	glm::vec3 m_center{ 0 };
+	glm::vec3 m_center = glm::vec3{ 0 };
 	float m_radius = 0;
 };

@@ -1,9 +1,10 @@
 #include "Canvas.h"
+#include "SDL.h"
 #include "Renderer.h"
 
 Canvas::Canvas(int width, int height, const Renderer& renderer)
 {
-	m_size = { width, height };
+	m_size = { width,height};
 	m_texture = SDL_CreateTexture(renderer.m_renderer,
 		SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING,
 		width, height);
@@ -13,9 +14,8 @@ Canvas::Canvas(int width, int height, const Renderer& renderer)
 
 Canvas::~Canvas()
 {
-	if (m_texture) {
-		SDL_DestroyTexture(m_texture);
-	}
+	//if m_texture not nullptr SDL Destroy Texture https ://wiki.libsdl.org/SDL2/SDL_DestroyTexture
+	if (m_texture) SDL_DestroyTexture(m_texture);
 }
 
 void Canvas::Update()
@@ -32,6 +32,7 @@ void Canvas::Clear(const color4_t& color)
 
 void Canvas::DrawPoint(const glm::ivec2& point, const color4_t& color)
 {
-	if (point.x < 0 || point.y < 0 || point.x >= m_size.x || point.y >= m_size.y) return;
+	if (point.x < 0 || point.y < 0 || point.x >= this->m_size.x || point.y >= this->m_size.y) return;
+
 	m_buffer[point.x + (point.y * m_size.x)] = ColorToRGBA(color);
 }

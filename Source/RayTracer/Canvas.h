@@ -1,7 +1,7 @@
 #pragma once
 #include "Color.h"
+#include "glm/glm.hpp"
 #include <vector>
-
 class Canvas
 {
 public:
@@ -18,8 +18,7 @@ public:
     friend class Renderer;
 
 private:
-    struct SDL_Texture* m_texture = nullptr;
+    class SDL_Texture* m_texture = nullptr;
     std::vector<rgba_t> m_buffer;
-
-    glm::ivec2 m_size{ 0 };
+    glm::ivec2 m_size{0};
 };
