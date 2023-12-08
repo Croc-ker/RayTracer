@@ -14,11 +14,11 @@ inline void InitScene01(Scene& scene, const Canvas& canvas) {
 	float aspectRatio = canvas.GetSize().x / canvas.GetSize().y;
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 0, 2, 10 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 20.0f, aspectRatio);
 	scene.SetCamera(camera);
-
+	int xOffset = 10;
 	// create objects -> add to scene
-	for (int x = -10; x < 10; x++)
+	for (int x = -3; x < 3; x++)
 	{
-		for (int z = -10; z < 10; z++)
+		for (int z = -43; z < 3; z++)
 		{
 			std::shared_ptr<Material> material;
 
@@ -30,7 +30,7 @@ inline void InitScene01(Scene& scene, const Canvas& canvas) {
 			else				material = std::make_shared<Emissive>(glm::rgbColor(glm::vec3{ random(0, 360), 1.0f, 1.0f }), 5.0f);
 
 			// set random sphere radius
-			float radius = random(0.2f, 0.3f);
+			float radius = random(0.1f, 0.5f);
 			// create sphere using random radius and material
 			auto sphere = std::make_unique<Sphere>(glm::vec3{ x + random(-0.5f, 0.5f), radius, z + random(-0.5f, 0.5f) }, radius, material);
 			// add sphere to the scene
@@ -38,8 +38,29 @@ inline void InitScene01(Scene& scene, const Canvas& canvas) {
 		}
 	}
 
-	auto plane = std::make_unique<Plane>(glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 }, std::make_shared<Lambertian>(color3_t{ 0.2f }));
+	auto plane = std::make_unique<Plane>(glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 }, std::make_shared<Lambertian>(color3_t{ .2f, .7f, .2f }));
 	scene.AddObject(std::move(plane));
+
+	auto bigSphere = std::make_unique<Sphere>(glm::vec3{ 2, 1, -10 }, 1, std::make_shared<Lambertian>(color3_t{ 0.5f }));
+	scene.AddObject(std::move(bigSphere));
+
+	bigSphere = std::make_unique<Sphere>(glm::vec3{ -2, 1.1f, -14 }, 1.1f, std::make_shared<Dielectric>(color3_t{ 1 }, 1.33));
+	scene.AddObject(std::move(bigSphere));
+
+	auto massiveBackgroundSphere1 = std::make_unique<Sphere>(glm::vec3{ 8, 7, -70 }, 20, std::make_shared<Dielectric>(color3_t{ 1 }, 1.02));
+	scene.AddObject(std::move(massiveBackgroundSphere1));
+
+	massiveBackgroundSphere1 = std::make_unique<Sphere>(glm::vec3{ -16, 7, -60 }, 20, std::make_shared<Dielectric>(color3_t{ 1 }, 1.02));
+	scene.AddObject(std::move(massiveBackgroundSphere1));
+
+	auto pillar = std::make_unique<Mesh>(std::make_shared<Metal>(color3_t{ .2f, .1f, .8f }, 1.5f));
+	pillar->Load("models/cube.obj", glm::vec3{ -2.5, 2, -4 }, glm::vec3{ 33, 33, 0 }, glm::vec3{ .9f, 6, 1.1f });
+	scene.AddObject(std::move(pillar));
+
+	pillar = std::make_unique<Mesh>(std::make_shared<Dielectric>(color3_t{ .1f, .2f, .8f }, 1.04f));
+	pillar->Load("models/cube.obj", glm::vec3{ 2.5, 2, -5 }, glm::vec3{ 33, 0, 33 }, glm::vec3{ 1.1f, 6, .9f });
+	scene.AddObject(std::move(pillar));
+
 }
 
 inline void InitScene02(Scene& scene, const Canvas& canvas) {
@@ -90,8 +111,8 @@ int main(int argc, char* argv[]) {
 
 	const int width = 400;
 	const int height = 300;
-	const int samples = 100;
-	const int depth = 8;
+	const int samples = 400;
+	const int depth = 9;
 
 	std::cout << "Hello World\n";
 
@@ -108,7 +129,7 @@ int main(int argc, char* argv[]) {
 
 	srand(time(NULL));
 
-	InitScene02(scene, canvas);
+	InitScene01(scene, canvas);
 
 	// render scene
 	canvas.Clear({ 0, 0, 0, 1 });
