@@ -47,18 +47,51 @@ inline void InitScene02(Scene& scene, const Canvas& canvas) {
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 0, 2, 10 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 20.0f, aspectRatio);
 	scene.SetCamera(camera);
 
+	//cube
 	auto cube = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0, 0, 1 }));
-	cube->Load("models/cube.obj", glm::vec3{ 0, 0.5f, 0 }, glm::vec3{ 0, 45, 0 });
+	cube->Load("models/cube.obj", glm::vec3{ -1, 0.5f, 0 }, glm::vec3{ 0, 45, 0 });
 	scene.AddObject(std::move(cube));
 
+	//sphere
+	auto sphere = std::make_unique<Sphere>(glm::vec3{ .5f, 0.5f, 0 }, 0.5f, std::make_shared<Lambertian>(color3_t{ 1, 0, 0 }));
+	scene.AddObject(std::move(sphere));
+
+	//floor
+	auto plane = std::make_unique<Plane>(glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 }, std::make_shared<Lambertian>(color3_t{ 1 }));
+	scene.AddObject(std::move(plane));
+
+	//back wall
+	plane = std::make_unique<Plane>(glm::vec3{ 0, 0, -5 }, glm::vec3{ 0, 0, 1 }, std::make_shared<Lambertian>(color3_t{ 1 }));
+	scene.AddObject(std::move(plane));
+
+	//ceiling
+	plane = std::make_unique<Plane>(glm::vec3{ 0, 2.5f, 0 }, glm::vec3{ 0, -1, 0 }, std::make_shared<Lambertian>(color3_t{ 1 }));
+	scene.AddObject(std::move(plane));
+
+	//light
+	auto light = std::make_unique<Mesh>(std::make_shared<Emissive>(color3_t{ 1 }, 15.0f));
+	light->Load("models/cube.obj", glm::vec3{ 0, 2.5f, 0 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 0.5f, 0.1f, 0.5f });
+	scene.AddObject(std::move(light));
+
+	//left wall (red)
+	plane = std::make_unique<Plane>(glm::vec3{ -2, 0, 0 }, glm::vec3{ 1, 0, 0 }, std::make_shared<Lambertian>(color3_t{ 1, 0, 0 }));
+	scene.AddObject(std::move(plane));
+
+	//right wall (green)
+	plane = std::make_unique<Plane>(glm::vec3{ 2, 0, 0 }, glm::vec3{ -1, 0, 0 }, std::make_shared<Lambertian>(color3_t{ 0, 1, 0 }));
+	scene.AddObject(std::move(plane));
+
+	//behind camera wall
+	plane = std::make_unique<Plane>(glm::vec3{ 0, 0, 10 }, glm::vec3{ 0, 0, -1 }, std::make_shared<Lambertian>(color3_t{ 1 }));
+	scene.AddObject(std::move(plane));
 }
 
 int main(int argc, char* argv[]) {
 
 	const int width = 400;
 	const int height = 300;
-	const int samples = 20;
-	const int depth = 5;
+	const int samples = 100;
+	const int depth = 8;
 
 	std::cout << "Hello World\n";
 
